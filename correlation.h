@@ -1,4 +1,3 @@
-
 #ifndef __CORRELATION_H__
 #define __CORRELATION_H__
 
@@ -10,13 +9,12 @@ extern "C"
 {
 #endif
 
-// définir une structure complexe qui contient une partie réelle et une partie imaginaire
+
 typedef struct{
     float re;
     float im;
 } complex;
 
-// structure d'une image complexe (après la FFT)
 typedef struct{
     unsigned int width;
     unsigned int height;
@@ -34,7 +32,7 @@ complex conjugue(complex z);
 complex reel2complex(float r);
 
 
-// fonction pour faire le calcul en puissance
+
 int power(int x, unsigned int n);
 
 
@@ -48,10 +46,10 @@ bwimage_t* imComplex2Reel(image_c *imc); // et normalise
 void data(bwimage_t *im); //remplie le data d'une image
 
 
-//dans une image complexe, les fonctions permettent de chercher la position du maximum, minimum ou d'une valeur la plus proche
+//dans une image complexe
 int cherchermax(image_c imc);
 int cherchermin(image_c imc);
-int chercher_proche(image_c imc, float a);
+int* chercherproche(image_c imc, float a); //cherche les 5 positions les plus proche d'une valeur
 
 
 //applique la fft
@@ -61,13 +59,13 @@ void fourier(image_c* imc,  int isign);
 image_c* correlation(image_c *imc1, image_c *imc2);
 
 
-//derive dans le domaine de fourier
+//derive dans fourier
 void derive(image_c *imc);
 void iwZ (complex *z, float w1, float  w2); // z*iw
 
 
 
-//pour les test (affichage des valeurs dans la matrice rawdata[] d'une image réelle ou complexe) et générer les images
+//pour les test et générer les images
 
 void affiche_imc(image_c* imC);
 void affiche_im(bwimage_t* im);

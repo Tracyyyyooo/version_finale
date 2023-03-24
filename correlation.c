@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-#include "FOURN.c"
+#include "FOURN.C"
 #include "correlation.h"
 
 complex produit(complex x, complex y){
@@ -12,11 +12,11 @@ complex produit(complex x, complex y){
     return z;
 }
 
-complex conjugue(complex z){
-    complex zc;
-    zc.re=z.re;
-    zc.im= -(z.im);
-    return zc;
+complex conjugue(complex x){
+    complex z;
+    z.re = x.re;
+    z.im= -(x.im);
+    return z;
 }
 
 complex reel2complex(float a){
@@ -31,6 +31,7 @@ complex reel2complex(float a){
 int power(int x, unsigned int n){
     return n==1? 1 : x*power(x, n-=1);
 }
+
 
 //verifie que le tableau est de taille 2 puissance n, renvoie la puissance de 2 supérieur ou égale
 unsigned int* verif_taille(bwimage_t image){
@@ -106,7 +107,6 @@ int cherchermax(image_c imc){
             max=imc.rawdata[i].re;
             position = i;
         }
-        else;
     }
     return position;
 }
@@ -121,24 +121,36 @@ int cherchermin(image_c imc){
             min=imc.rawdata[i].re;
             position = i;
         }
-        else;
     }
     return position;
 }
 
-int chercher_proche(image_c imc, float a){
-    int position=0;
-    int n=imc.width*imc.height;
-    float min=a, d;
-    for (int i = 0;i<n;i++)
-    {
-        d = imc.rawdata[i].re - a;
-        if(d<0) d=-d;
-        if(d < min){
-            min=d;
-            position = i;
+int* chercherproche(image_c imc, float a)
+{
+    int* position = malloc(5*sizeof(int));
+    int n = imc.width*imc.height;
+    int V;
+    float min, d;
+    for(int k=0; k<5; k++){
+        min=a;
+        for (int i=0; i<n; i++)
+        {
+            V=1;
+            d = imc.rawdata[i].re - a;
+            if(d<0) d=-d;
+
+            for(int l=0; l<k; l++) //check si on a deja trouvé cette position
+            {
+                if(position[l]==i)
+                    V=0;
+            }
+
+            if(d < min && V)
+                {
+                min=d;
+                position[k] = i;
+                }
         }
-        else;
     }
     return position;
 }
@@ -153,13 +165,12 @@ void fourier(image_c* imc,  int isign){
 }
 
 
-image_c* correlation(image_c *imc1, image_c *imc2){ //produit de correlation
+image_c* correlation(image_c *imc1, image_c *imc2){   //produit de correlation
     image_c* corr = malloc(sizeof(image_c));
     corr->height = imc1->height;
     corr->width = imc1->width;
     corr->rawdata = malloc(imc1->height*imc1->width*sizeof(complex));
     for (int i=0;i<imc1->height*imc1->width; i++){
-        
         corr->rawdata[i] = produit(imc1->rawdata[i], conjugue(imc2->rawdata[i]));
     }
     return corr;
@@ -173,18 +184,19 @@ void derive(image_c *imc){
     float w1, w2;
     for(int i=0; i<H; i++){
         for(int j=0; j<W; j++){
-            if(i<H/2) w1 = (float)i/H ; else w1 = (float)(i-H)/H;
-            if(j<W/2) w2 = (float)j/W ; else w2 = (float)(j-W)/W;
-            iwZ((complex*)&imc->rawdata[i*W+j], w1, w2);
+            if(i<H/2) w1 = (float)i/W ; else w1 = (float)(i-W)/W;
+            if(j<W/2) w2 = (float)j/H ; else w2 = (float)(j-H)/H;
+            iwZ(&imc->rawdata[i*W+j], w1, w2);
         }
     }
 }
 
-void iwZ(complex *z, float w1, float w2){
-    float temp=z->re;
-    float sigma=0.3; //on multuplie par une gaussienne pour le flou
+//multiplie par i(w1+w2) et une gaussinne
+void iwZ(complex *z, float w1, float w2){  
+    float reel=z->re;
+    float sigma=0.16; //on multuplie par une gaussienne pour le flou
     z->re = -z->im * (w1+w2) * exp(-(w1*w1+w2*w2)/(2*sigma*sigma));
-    z->im = temp * (w1+w2) * exp(-(w1*w1+w2*w2)/(2*sigma*sigma));
+    z->im = reel * (w1+w2) * exp(-(w1*w1+w2*w2)/(2*sigma*sigma));
 }
 
 
@@ -192,7 +204,9 @@ void iwZ(complex *z, float w1, float w2){
 
 
 
-//pour les test et génerer les images
+
+
+//pour les test et génerer les images   ///////////////////////////////////////////////////////////////////////
 
 //affiche images pour les test
 void affiche_imc(image_c* imC){
@@ -224,7 +238,7 @@ void affiche_data(bwimage_t *im){
 }
 
 
-//crée une image de pixels noir ou aléatoires
+//crée une image de pixels blancs ou aléatoires
 void create_im(int size, char* adresse, int color){
     bwimage_t  *image = malloc(sizeof(bwimage_t));
     //image = E3ACreateImage();
@@ -233,9 +247,9 @@ void create_im(int size, char* adresse, int color){
     image->rawdata=malloc(image->height*image->width*sizeof(unsigned char));
     for (int i=0;i<image->height*image->width;i++){
         if(color)
-            image->rawdata[i]=rand()%255;
+            image->rawdata[i]=rand()%1 + 254;
         else
-            image->rawdata[i]=0;
+            image->rawdata[i]=255;
     }
     data(image);
     E3ADumpImage(adresse, image);
