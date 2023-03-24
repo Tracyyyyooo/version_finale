@@ -1,0 +1,3 @@
+/home/tp-home006/cwang6/Documents/projet342/projet2/build/CMakeFiles/rebuild_cache.dir
+/home/tp-home006/cwang6/Documents/projet342/projet2/build/CMakeFiles/edit_cache.dir
+/home/tp-home006/cwang6/Documents/projet342/projet2/build/CMakeFiles/test_png.dir

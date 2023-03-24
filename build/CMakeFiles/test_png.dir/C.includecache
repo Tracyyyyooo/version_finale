@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/tp-home006/cwang6/Documents/projet342/projet2/correlation.h
+pngwrap.h
+/home/tp-home006/cwang6/Documents/projet342/projet2/pngwrap.h
+
+/home/tp-home006/cwang6/Documents/projet342/projet2/pngwrap.h
+
+/home/tp-home006/cwang6/Documents/projet342/projet2/testImage.c
+stdio.h
+-
+stdlib.h
+-
+pngwrap.h
+/home/tp-home006/cwang6/Documents/projet342/projet2/pngwrap.h
+correlation.h
+/home/tp-home006/cwang6/Documents/projet342/projet2/correlation.h
+

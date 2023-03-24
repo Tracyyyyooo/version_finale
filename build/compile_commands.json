@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/tp-home006/cwang6/Documents/projet342/projet2/build",
+  "command": "/usr/bin/gcc   -g   -std=gnu99 -o CMakeFiles/test_png.dir/testImage.c.o   -c /home/tp-home006/cwang6/Documents/projet342/projet2/testImage.c",
+  "file": "/home/tp-home006/cwang6/Documents/projet342/projet2/testImage.c"
+},
+{
+  "directory": "/home/tp-home006/cwang6/Documents/projet342/projet2/build",
+  "command": "/usr/bin/gcc   -g   -std=gnu99 -o CMakeFiles/test_png.dir/pngwrap.c.o   -c /home/tp-home006/cwang6/Documents/projet342/projet2/pngwrap.c",
+  "file": "/home/tp-home006/cwang6/Documents/projet342/projet2/pngwrap.c"
+},
+{
+  "directory": "/home/tp-home006/cwang6/Documents/projet342/projet2/build",
+  "command": "/usr/bin/gcc   -g   -std=gnu99 -o CMakeFiles/test_png.dir/correlation.c.o   -c /home/tp-home006/cwang6/Documents/projet342/projet2/correlation.c",
+  "file": "/home/tp-home006/cwang6/Documents/projet342/projet2/correlation.c"
+}
+]
