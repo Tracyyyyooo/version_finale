@@ -7,8 +7,8 @@
 
 int main(){
     
-    //create_im(128, "../noa.png", 1);
-    //create_im(128, "../noa_motif.png", 0);
+    create_im(128, "../noa.png", 1);
+    create_im(128, "../noa_motif.png", 0);
 
     bwimage_t *image = E3ACreateImage();
     bwimage_t *forme = E3ACreateImage();
@@ -17,9 +17,9 @@ int main(){
     E3ALoadImage("../noa_motif.png", forme);
 
 
-    //add_square(forme, 59, 59, 10, 130, "../noa_motif.png");
+    add_square(forme, 59, 59, 10, 130, "../noa_motif.png");
     motif(forme);
-/*
+
 
     add_square(image, 75, 35, 10, 130, "../noa.png"); //celui de la meme couleur en 80 40
     
@@ -30,7 +30,7 @@ int main(){
     add_square(image, 110, 90, 5, 0, "../noa.png"); // 112 92
     add_square(image, 50, 90, 5, 130, "../noa.png"); // 52 92
 
-*/
+
     
 
     
@@ -41,10 +41,6 @@ int main(){
 
     image_c* imC = imReel2Complex(image);
     image_c* motifC = imReel2Complex(forme);
-
-
-
-
 
     fourier(imC, 1);
     fourier(motifC, 1);
@@ -59,7 +55,7 @@ int main(){
     fourier(imC, -1);
     fourier(motifC, -1);
 
-    float max = autocorr->rawdata[cherchermax(*autocorr)].re;
+    float max = autocorr->rawdata[cherchermax(*autocorr)].re; //trouve l'autocorrelation maximum
     int* position = chercherproche(*retourC, max); //cherche le plus proche de l'autocorrelation
     for(int i=0; i<5; i++){
         x=position[i]%retourC->width;

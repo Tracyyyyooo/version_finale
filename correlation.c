@@ -27,7 +27,6 @@ complex reel2complex(float a){
 }
 
 
-
 int power(int x, unsigned int n){
     return n==1? 1 : x*power(x, n-=1);
 }
@@ -84,6 +83,7 @@ bwimage_t* imComplex2Reel(image_c *imc)
     
 }
 
+//remplie la data[][] d'une image réelle
 void data(bwimage_t *im){
     im->data=malloc(im->height*sizeof(unsigned char*));
     for(int i=0; i<im->height; i++)
@@ -159,13 +159,15 @@ int* chercherproche(image_c imc, float a)
 
 
 
+//applique la fft ou inverse selon isign
 void fourier(image_c* imc,  int isign){
     unsigned long nn[2]={imc->height,imc->width};
     fourn( (float*)imc->rawdata, nn,  2, isign);
 }
 
 
-image_c* correlation(image_c *imc1, image_c *imc2){   //produit de correlation
+//produit de correlation: fait un produit entre imc1 avec le conjugue de imc2 dans fourrier
+image_c* correlation(image_c *imc1, image_c *imc2){
     image_c* corr = malloc(sizeof(image_c));
     corr->height = imc1->height;
     corr->width = imc1->width;
@@ -178,7 +180,7 @@ image_c* correlation(image_c *imc1, image_c *imc2){   //produit de correlation
 
 
 
-
+//derive dans fourier
 void derive(image_c *imc){
     int H=imc->height, W=imc->width;
     float w1, w2;
@@ -199,7 +201,23 @@ void iwZ(complex *z, float w1, float w2){
     z->im = reel * (w1+w2) * exp(-(w1*w1+w2*w2)/(2*sigma*sigma));
 }
 
-
+//met le motif sous le bon format pour fourrier
+void *motif(bwimage_t *im){
+    bwimage_t *motif = malloc(sizeof(bwimage_t));
+    int H=im->height, W=im->width ,i2, j2;
+    motif->height = H;
+    motif->width = W;
+    motif->rawdata=malloc(H*W*sizeof(unsigned char));
+    for(int i=0; i<H; i++){
+        for(int j=0; j<W; j++){
+            if(i<H/2) i2 = i+(H/2) ; else i2 = i-(H/2);
+            if(j<W/2) j2 = j+(W/2) ; else j2 = j-(W/2);
+            motif->rawdata[i*W+j] = im->rawdata[i2*W+j2];
+        }
+    }
+    data(motif);
+    *im=*motif;
+}
 
 
 
@@ -256,6 +274,7 @@ void create_im(int size, char* adresse, int color){
     E3AFreeImage(image);
 }
 
+//ajoute un carre sur une image
 void add_square(bwimage_t* image, int x, int y, int n, int color, char* adresse){
     for(int i=0; i<n;i++){
         for(int j=0;j<n;j++){
@@ -266,20 +285,3 @@ void add_square(bwimage_t* image, int x, int y, int n, int color, char* adresse)
     E3ADumpImage(adresse, image);
 }
 
-
-void *motif(bwimage_t *im){
-    bwimage_t *motif = malloc(sizeof(bwimage_t));
-    int H=im->height, W=im->width ,i2, j2;
-    motif->height = H;
-    motif->width = W;
-    motif->rawdata=malloc(H*W*sizeof(unsigned char));
-    for(int i=0; i<H; i++){
-        for(int j=0; j<W; j++){
-            if(i<H/2) i2 = i+(H/2) ; else i2 = i-(H/2);
-            if(j<W/2) j2 = j+(W/2) ; else j2 = j-(W/2);
-            motif->rawdata[i*W+j] = im->rawdata[i2*W+j2];
-        }
-    }
-    data(motif);
-    *im=*motif;
-}

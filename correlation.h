@@ -10,11 +10,13 @@ extern "C"
 #endif
 
 
+//type complexe
 typedef struct{
     float re;
     float im;
 } complex;
 
+//image complexe
 typedef struct{
     unsigned int width;
     unsigned int height;
@@ -28,10 +30,8 @@ complex produit(complex x, complex y);
 //conjugue un nombre complexe
 complex conjugue(complex z);
 
-//initialise les float en complex avec une partie imaginaire nulle
+//transforme un float en complex avec une partie imaginaire nulle
 complex reel2complex(float r);
-
-
 
 int power(int x, unsigned int n);
 
@@ -41,9 +41,9 @@ unsigned int* verif_taille(bwimage_t image);
 
 
 //convertit une image reel en complexe et inversement
-image_c* imReel2Complex(bwimage_t *image); // si la taille n'est pas une puissance de 2, l'image est agrandie
-bwimage_t* imComplex2Reel(image_c *imc); // et normalise
-void data(bwimage_t *im); //remplie le data d'une image
+image_c* imReel2Complex(bwimage_t *image); // pass en complexe, si la taille n'est pas une puissance de 2, l'image est agrandie
+bwimage_t* imComplex2Reel(image_c *imc); // repasse en reel et normalise
+void data(bwimage_t *im); //remplie le data[][] d'une image réelle
 
 
 //dans une image complexe
@@ -52,16 +52,20 @@ int cherchermin(image_c imc);
 int* chercherproche(image_c imc, float a); //cherche les 5 positions les plus proche d'une valeur
 
 
-//applique la fft
+//applique la fft ou inverse selon isign
 void fourier(image_c* imc,  int isign);
 
-//produit de correlation avec le conjugue
+//produit de correlation: fait un produit entre imc1 avec le conjugue de imc2 dans fourrier
 image_c* correlation(image_c *imc1, image_c *imc2);
 
 
 //derive dans fourier
 void derive(image_c *imc);
-void iwZ (complex *z, float w1, float  w2); // z*iw
+void iwZ (complex *z, float w1, float  w2); // z*iw*(gaussienne)
+
+
+//met le motif à corréler sous le bon format pour fourrier
+void *motif(bwimage_t *im);   
 
 
 
@@ -71,9 +75,9 @@ void affiche_imc(image_c* imC);
 void affiche_im(bwimage_t* im);
 void affiche_data(bwimage_t *im);
 
-void create_im(int size, char* adresse, int color); //crée une image de pixels aléatoires
-void add_square(bwimage_t* image, int x, int y, int n, int color, char* adresse);
-void *motif(bwimage_t *im);   //met le motif à corréler sous le bon format
+void create_im(int size, char* adresse, int color); //crée une image de pixels blancs ou aléatoires
+void add_square(bwimage_t* image, int x, int y, int n, int color, char* adresse); //ajoute un carré dans une image
+
 
 #ifdef __cplusplus
 }
