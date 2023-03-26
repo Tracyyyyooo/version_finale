@@ -55,8 +55,8 @@ int main(){
     fourier(imC, -1);
     fourier(motifC, -1);
 
-    float p = autocorr->rawdata[cherchermax(*autocorr)].re; //trouve l'autocorrelation maximum
-    int* position = chercherproche(*retourC, max); //cherche le plus proche de l'autocorrelation
+    float p = autocorr->rawdata[cherchermax(*autocorr)].re; //trouve la correlation maximum
+    int* position = chercherproche(*retourC, p); //cherche le plus proche de p
     for(int i=0; i<5; i++){
         x=position[i]%retourC->width;
         y=position[i]/retourC->height;
