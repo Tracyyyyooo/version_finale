@@ -59,7 +59,7 @@ image_c* imReel2Complex(bwimage_t *image){
             if(j<image->width && i<image->height)
                 imC->rawdata[i*n[1]+j]=reel2complex((float)image->rawdata[i*image->height+j]);
             else
-                imC->rawdata[i*n[1]+j]=reel2complex(0);
+                imC->rawdata[i*n[1]+j]=reel2complex(255);
         }
     }
     return imC;
