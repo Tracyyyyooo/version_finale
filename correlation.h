@@ -43,7 +43,7 @@ unsigned int* verif_taille(bwimage_t image);
 //convertit une image reel en complexe et inversement
 image_c* imReel2Complex(bwimage_t *image); // pass en complexe, si la taille n'est pas une puissance de 2, l'image est agrandie
 bwimage_t* imComplex2Reel(image_c *imc); // repasse en reel et normalise
-void data(bwimage_t *im); //remplie le data[][] d'une image réelle
+void data(bwimage_t *im); //remplie la data[][] d'une image réelle
 
 
 //dans une image complexe
@@ -66,6 +66,10 @@ void iwZ (complex *z, float w1, float  w2); // z*iw*(gaussienne)
 
 //met le motif à corréler sous le bon format pour fourrier
 void *motif(bwimage_t *im);   
+
+
+// affiche les 5 coordonées où l'intercorrelation est la plus ressemblante à l'autocorrélation du motif
+void positions (image_c* autocorr, image_c* corr);
 
 
 

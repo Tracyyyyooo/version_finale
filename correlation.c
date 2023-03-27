@@ -59,7 +59,7 @@ image_c* imReel2Complex(bwimage_t *image){
             if(j<image->width && i<image->height)
                 imC->rawdata[i*n[1]+j]=reel2complex((float)image->rawdata[i*image->height+j]);
             else
-                imC->rawdata[i*n[1]+j]=reel2complex(255);
+                imC->rawdata[i*n[1]+j]=reel2complex(0);
         }
     }
     return imC;
@@ -217,6 +217,18 @@ void *motif(bwimage_t *im){
     }
     data(motif);
     *im=*motif;
+}
+
+// affiche les 5 coordonées où l'intercorrelation est la plus ressemblante à l'autocorrélation du motif
+void positions(image_c* autocorr, image_c* corr){
+    int x, y;
+    float p = autocorr->rawdata[cherchermax(*autocorr)].re; //trouve l'autocorrelation maximum
+    int* position = chercherproche(*corr, p); //cherche le plus proche de l'autocorrelation
+    for(int i=0; i<5; i++){
+        x=position[i]%corr->width;
+        y=position[i]/corr->height;
+        printf("%d, %d\n", x, y);   
+    }
 }
 
 
