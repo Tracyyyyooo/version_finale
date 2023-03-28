@@ -65,7 +65,7 @@ void iwZ (complex *z, float w1, float  w2); // z*iw*(gaussienne)
 
 
 //met le motif à corréler sous le bon format pour fourrier
-void *motif(bwimage_t *im);   
+void motif(bwimage_t *im);   
 
 
 // affiche les 5 coordonées où l'intercorrelation est la plus ressemblante à l'autocorrélation du motif
